@@ -17,7 +17,7 @@ from subprocess import call
 
 def make_email_msgs(fileList, configItems):
   jobStatus = True
-  if len(fileList) < 2:
+  if len(fileList) < 1:
     jobStatus = False
   msg_dict = {'msg': None, 'subject_line': None}
   fileListStr = "\n".join(fileList)
@@ -134,6 +134,10 @@ def main():
       print 'Upload done.'
       #add emailer
       msg_dict = make_email_msgs([configItems['file_path_zip']], configItems)
+      today = " for " +str(time.strftime("%m/%d/%Y"))
+      msg = lte.sendJobStatusEmail(msg_dict['subject_line'] + today, msg_dict['msg'])
+    else:
+      msg_dict = make_email_msgs([]], configItems)
       today = " for " +str(time.strftime("%m/%d/%Y"))
       msg = lte.sendJobStatusEmail(msg_dict['subject_line'] + today, msg_dict['msg'])
 
