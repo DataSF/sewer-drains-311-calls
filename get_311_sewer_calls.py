@@ -95,7 +95,7 @@ def pageThroughResultsSelect(baseUrl, whereClause, qry_cols):
 
 def main():
   qry = "https://data.sfgov.org/resource/ktji-gk7t.json?$select=* where (service_name = 'Catch Basin Maintenance' OR service_name  = 'Sewer Issues')"
-  config_inputdir = './configs/'
+  config_inputdir = '/home/ubuntu/sewer-drains-311-calls/configs/'
   configFile = 'configs.yaml'
   cI =  ConfigItems(config_inputdir , configFile)
   configItems = cI.getConfigs()
