@@ -133,7 +133,7 @@ def main():
       sftp.put(configItems['file_path_zip'])
       print 'Upload done.'
       #add emailer
-      msg_dict = make_email_msgs("drains_sewers_311_shapefile.zip", configItems)
+      msg_dict = make_email_msgs(["drains_sewers_311_shapefile.zip"], configItems)
       today = " for " +str(time.strftime("%m/%d/%Y"))
       msg = lte.sendJobStatusEmail(msg_dict['subject_line'] + today, msg_dict['msg'])
     else:
