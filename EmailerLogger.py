@@ -72,8 +72,8 @@ class emailer():
         self.inputdir = inputdir
         self.configItems = configItems
         self.emailConfigs = self.getEmailerConfigs()
-        
-        
+
+
     def getEmailerConfigs(self):
         emailConfigFile = self.inputdir + self.configItems['email_config_fname']
         with open(emailConfigFile,  'r') as stream:
@@ -83,22 +83,23 @@ class emailer():
             except yaml.YAMLError as exc:
                 print(exc)
         return 0
-    
+
     def setConfigs(self, subject_line, msgBody, fname_attachment=None, fname_attachment_fullpath=None):
         self.server = self.emailConfigs['server_addr']
         self.server_port = self.emailConfigs['server_port']
         self.address =  self.emailConfigs['email_addr']
-        self.password = base64.b64decode(self.emailConfigs['email_pass'])
+        if len(self.emailConfigs['email_pass']) > 0:
+            self.password = base64.b64decode(self.emailConfigs['email_pass'])
         self.msgBody = msgBody
         self.subjectLine = subject_line
         self.fname_attachment = fname_attachment
         self.fname_attachment_fullpath = fname_attachment_fullpath
         self.recipients = self.emailConfigs['receipients']
         self.recipients =  self.recipients.split(",")
-    
+
     def getEmailConfigs(self):
         return self.emailConfigs
-    
+
     def sendEmails(self, subject_line, msgBody, fname_attachment=None, fname_attachment_fullpath=None):
         self.setConfigs(subject_line, msgBody, fname_attachment, fname_attachment_fullpath)
         fromaddr = self.address
@@ -107,9 +108,9 @@ class emailer():
         msg['From'] = fromaddr
         msg['To'] = ", ".join(toaddr)
         msg['Subject'] = self.subjectLine
-        body = self.msgBody 
+        body = self.msgBody
         msg.attach(MIMEText(body, 'plain'))
-          
+
         #Optional Email Attachment:
         if(not(self.fname_attachment is None and self.fname_attachment_fullpath is None)):
             filename = self.fname_attachment
@@ -119,7 +120,7 @@ class emailer():
             encoders.encode_base64(part)
             part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
             msg.attach(part)
-        
+
         #normal emails, no attachment
         server = smtplib.SMTP(self.server, self.server_port)
         server.starttls()
@@ -145,7 +146,7 @@ class logETLLoad:
         self.configItems =  configItems
         self.inputdir = inputdir
 
-        
+
     def removeKeys(self, dataset):
         for key in self.keysToRemove:
             try:
@@ -154,9 +155,9 @@ class logETLLoad:
                 noKey = True
         return dataset
 
-    
+
     def sendJobStatusEmail(self, subject_line, msg):
-        msgBody  = "" 
+        msgBody  = ""
         msgBody  = msgBody  + msg
         subject_line = subject_line
         e = emailer(self.inputdir, self.configItems)
@@ -168,9 +169,9 @@ class logETLLoad:
         print "****************JOB STATUS******************"
         print subject_line
         print "Email Sent!"
-    
-    
-    
+
+
+
 if __name__ == "__main__":
     main()
 
