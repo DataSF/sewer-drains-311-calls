@@ -137,7 +137,7 @@ def main():
       today = " for " +str(time.strftime("%m/%d/%Y"))
       msg = lte.sendJobStatusEmail(msg_dict['subject_line'] + today, msg_dict['msg'])
     else:
-      msg_dict = make_email_msgs([]], configItems)
+      msg_dict = make_email_msgs([], configItems)
       today = " for " +str(time.strftime("%m/%d/%Y"))
       msg = lte.sendJobStatusEmail(msg_dict['subject_line'] + today, msg_dict['msg'])
 
