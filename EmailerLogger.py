@@ -88,7 +88,7 @@ class emailer():
         self.server = self.emailConfigs['server_addr']
         self.server_port = self.emailConfigs['server_port']
         self.address =  self.emailConfigs['email_addr']
-        if !(self.emailConfigs['email_pass'] is None):
+        if not(self.emailConfigs['email_pass'] is None):
             self.password = base64.b64decode(self.emailConfigs['email_pass'])
         self.msgBody = msgBody
         self.subjectLine = subject_line
