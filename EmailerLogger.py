@@ -123,8 +123,8 @@ class emailer():
 
         #normal emails, no attachment
         server = smtplib.SMTP(self.server, self.server_port)
-        server.starttls()
-        server.login(fromaddr, self.password)
+        #server.starttls()
+        #server.login(fromaddr, self.password)
         text = msg.as_string()
         server.sendmail(fromaddr, toaddr, text)
         server.quit()
