@@ -94,7 +94,7 @@ class emailer():
         self.subjectLine = subject_line
         self.fname_attachment = fname_attachment
         self.fname_attachment_fullpath = fname_attachment_fullpath
-        self.recipients = self.emailConfigs['receipients']
+        self.recipients = self.emailConfigs['recipients']
         self.recipients =  self.recipients.split(",")
 
     def getEmailConfigs(self):
