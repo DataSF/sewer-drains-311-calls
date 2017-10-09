@@ -102,7 +102,8 @@ def main():
   sftp_url = configItems['sftp_url']
   file_path = configItems['file_path']
   remote_put_path = configItems['remote_put_path']
-
+  password=base64.b64decode(configItems['password'])
+  lte = logETLLoad(config_inputdir, configItems)
   baseUrl = "data.sfgov.org"
   baseUrl = "https://"+ baseUrl +"/resource/ktji-gk7t"
   qryCols = " * "
@@ -125,12 +126,16 @@ def main():
   with open(file_path, 'w') as stream:
     json.dump(all_results, stream, indent=2)
   call(["npm", "run", "calls311ToShp"])
-  with pysftp.Connection(sftp_url, username=configItems['username'], password=configItems['password'] ) as sftp:
+  with pysftp.Connection(sftp_url, username=configItems['username'], password= base64.b64decode(configItems['password']) ) as sftp:
     if os.path.isfile(configItems['file_path_zip']):
-      sftp.chdir('PUC')
+      sftp.chdir('DPW')
       print "uploading file: " + configItems['file_path_zip'] + " At " + str(datetime.date.today())
       sftp.put(configItems['file_path_zip'])
       print 'Upload done.'
+      #add emailer
+      msg_dict = make_email_msgs([configItems['file_path_zip']], configItems)
+      today = " for " +str(time.strftime("%m/%d/%Y"))
+      msg = lte.sendJobStatusEmail(msg_dict['subject_line'] + today, msg_dict['msg'])
 
 if __name__ == "__main__":
     main()

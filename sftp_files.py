@@ -1,4 +1,4 @@
-
+cdss
 # coding: utf-8
 
 
@@ -29,7 +29,7 @@ def make_email_msgs(fileList, configItems):
 		msg_dict['msg']= "JOB FAILED: " + configItems['job_name'] + " FAILED! \n\n\n" + fileListStr + " did NOT transfer to sftp. \n\n Please go check the logs"
 	return msg_dict
 
-config_inputdir = '/home/ubuntu/hub_datawrangle/config/'
+config_inputdir = '/Users/j9/Desktop/stuff/sewercalls311/'
 fieldConfigFile = 'fieldConfig.yaml'
 
 
@@ -59,7 +59,7 @@ print sftp_url, file_path, remote_put_path
 
 
 regex = str(datetime.date.today())+ "*"
-regex =  "[a-zA-Z0-9_]*" + regex.replace("-", '') 
+regex =  "[a-zA-Z0-9_]*" + regex.replace("-", '')
 regex = re.compile(regex )
 #regex = re.compile(regex)
 fileList = [f for f in listdir(file_path) if isfile(join(file_path, f)) and re.match("clients", f)]
@@ -85,7 +85,7 @@ msg = lte.sendJobStatusEmail(msg_dict['subject_line'] + today, msg_dict['msg'])
 
 
 fL = [f for f in listdir(file_path) if isfile(join(file_path, f)) and re.match("clients", f)]
-for fn in fL : 
+for fn in fL :
     print "removing file: " + fn
     if os.path.isfile(file_path+fn):
         os.remove(file_path+fn)
